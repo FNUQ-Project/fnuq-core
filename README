@@ -1,0 +1,15 @@
+FNUQCore - A repo for FNUQ's master code
+=======================================================================
+Welcome to FNUQ , this is a repo saved core code
+This repository does not provide any directly usable code; it is simply a library that clients link to to perform operations.
+So , if you want send feedback for cli , please return main menu , to see cli repo
+=======================================================================
+How to use it
+=======================================================================
+If you want to write your own client for FNUQ but don't want to rewrite its "kernel," then this repository contains reusable code.
+Or , it is not support for you
+=======================================================================
+How to licensed it
+=======================================================================
+We licnesed on GNU AGPL Version 3
+=======================================================================
