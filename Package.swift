@@ -4,7 +4,7 @@ import PackageDescription
 let package = Package(
     name: "FNUQCore",
     platforms: [
-        .macOS(.v11)  // Only support for macOS 11+
+        .macOS(.v11)  // Only support for macOS 11+.
     ],
     products: [
         

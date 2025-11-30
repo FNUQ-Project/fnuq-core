@@ -2,39 +2,45 @@
 // VirtualMachine implementation (compatibility build)
 
 import Foundation
-
+import Hypervisor
 public final class VirtualMachine {
     private var vm: hv_vm_t?
     private var vcpus: [VCPU] = []
     private var memoryRegions: [MemoryRegion] = []
     private var isRunning = false
-
+    
     public let id = UUID()
     public let configuration: VMConfiguration
-
+    
     public init(configuration: VMConfiguration = VMConfiguration()) throws {
         self.configuration = configuration
         try create()
     }
-
+    
     deinit {
         stop()
         destroy()
     }
-
+    
     // MARK: - Lifecycle
     private func create() throws {
-        // In this compatibility build we default to a simple vm handle if supported flag is set
         guard SystemInfo().isHypervisorSupported else {
             throw FNUQError.hypervisorNotSupported
         }
-
-        self.vm = 1
-        print("[FNUQCore] VM is created (ID: \(id.uuidString.prefix(8)))")
+        
+        var vmHandle: hv_vm_t = 0
+        let result = hv_vm_create(vmHandle as! OS_hv_vm_config)
+        guard result == HV_SUCCESS else {
+            throw FNUQError.vmCreationFailed(result)
+        }
+        self.vm = vmHandle
+        print("[FNUQCore] VM created (handle: \(vmHandle))")
     }
-
+    
+    
     private func destroy() {
-        if let _ = vm {
+        if let vmHandle = vm {
+            
             vcpus.forEach { _ in /* noop */ }
             vcpus.removeAll()
             memoryRegions.removeAll()
